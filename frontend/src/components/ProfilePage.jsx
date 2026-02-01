@@ -108,9 +108,9 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="mt-6 flex justify-end">
+          {/* <div className="mt-6 flex justify-end">
             <button className="btn btn-primary">Save Changes</button>
-          </div>
+          </div> */}
         </div>
 
         {/* Account Information */}

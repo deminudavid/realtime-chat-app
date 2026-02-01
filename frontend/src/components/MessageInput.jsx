@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Send, Image, X } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
-import toast from "react-hot-toast";
 
 const MessageInput = () => {
   const [text, setText] = useState("");
@@ -50,11 +49,11 @@ const MessageInput = () => {
     <div className="relative w-full bg-base-100 border-t border-base-300 p-2 flex flex-col gap-2">
       {/* Image preview */}
       {imagePreview && (
-        <div className="relative w-32 h-32 rounded-lg overflow-hidden">
+        <div className="relative w-32 h-32 mx-auto flex rounded-lg overflow-hidden">
           <img
             src={imagePreview}
             alt="preview"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover "
           />
           <button
             onClick={removeImage}

@@ -13,7 +13,9 @@ const HomePage = () => {
         <div className="bg-base-100 rounded-lg shadow w-full max-w-6xl h-[calc(100vh-8rem)]">
           <div className="flex h-full overflow-hidden rounded-lg">
             {/* Sidebar */}
-            <div className="w-2/7 lg:w-72 border-r border-base-300">
+            <div
+              className={`${selectedUser ? "hidden" : "w-full"}  lg:w-72 border-r border-base-300`}
+            >
               <Sidebar />
             </div>
 

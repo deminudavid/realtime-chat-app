@@ -12,8 +12,10 @@ import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useThemeStore";
 
 function App() {
-  const { checkAuth, authUser, isCheckingAuth } = useAuthStore();
+  const { checkAuth, authUser, isCheckingAuth, onlineUsers } = useAuthStore();
   const theme = useThemeStore((state) => state.theme);
+
+  console.log("Online users", onlineUsers);
 
   useEffect(() => {
     checkAuth();
@@ -31,7 +33,7 @@ function App() {
     );
 
   return (
-    <div>
+    <div className="container mx-auto">
       <Navbar />
       <Routes>
         <Route

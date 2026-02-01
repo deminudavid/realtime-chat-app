@@ -8,8 +8,14 @@ import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const { messages, getMessages, selectedUser, isMessagesLoading } =
-    useChatStore();
+  const {
+    messages,
+    getMessages,
+    selectedUser,
+    isMessagesLoading,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = useChatStore();
   const { authUser } = useAuthStore();
 
   const messagesEndRef = useRef(null);
@@ -18,7 +24,11 @@ const ChatContainer = () => {
   useEffect(() => {
     if (!selectedUser) return;
     getMessages(selectedUser._id);
-  }, [selectedUser, getMessages]);
+
+    subscribeToMessages();
+
+    return () => unsubscribeFromMessages();
+  }, [selectedUser, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -47,7 +57,7 @@ const ChatContainer = () => {
       <ChatHeader />
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 mb-[80px]">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 mb-20">
         {/* Add bottom margin so messages don't hide behind input */}
         {messages.map((message) => {
           const isMe = message.senderId === authUser._id;
@@ -58,7 +68,7 @@ const ChatContainer = () => {
             >
               {/* Avatar */}
               {!isMe && (
-                <div className="flex-shrink-0 mr-2 sm:mr-3">
+                <div className="shrink-0 mr-2 sm:mr-3">
                   <img
                     src={selectedUser.profilePic || "/avatar.jpg"}
                     alt={selectedUser.fullName}
@@ -69,7 +79,7 @@ const ChatContainer = () => {
 
               {/* Message Bubble */}
               <div
-                className={`max-w-[75%] sm:max-w-[60%] p-2 sm:p-3 rounded-lg break-words flex flex-col ${
+                className={`max-w-[75%] sm:max-w-[60%] p-2 sm:p-3 rounded-lg wrap-break-word flex flex-col ${
                   isMe
                     ? "bg-primary text-primary-content rounded-br-none"
                     : "bg-base-200 text-base-content rounded-bl-none"
@@ -77,7 +87,7 @@ const ChatContainer = () => {
               >
                 <div className="flex flex-col  mb-1">
                   <span className="text-sm">{message.text}</span>
-                  <time className="text-xs opacity-50 ml-2">
+                  <time className="text-xs opacity-80 ml-">
                     {formatMessageTime(message.createdAt)}
                   </time>
                 </div>
@@ -93,7 +103,7 @@ const ChatContainer = () => {
 
               {/* Avatar for self */}
               {isMe && (
-                <div className="flex-shrink-0 ml-2 sm:ml-3">
+                <div className="shrink-0 ml-2 sm:ml-3">
                   <img
                     src={authUser.profilePic || "/avatar.jpg"}
                     alt={authUser.fullName}
